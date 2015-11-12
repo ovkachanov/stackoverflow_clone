@@ -45,7 +45,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'shoulda-matchers', '~> 2.8.0'
+  gem 'shoulda-matchers'
 end
 
 group :development do
