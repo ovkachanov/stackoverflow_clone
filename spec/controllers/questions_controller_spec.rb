@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe QuestionsController do
+  sing_in_user
   let(:question) { create(:question) }
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -29,8 +30,6 @@ describe QuestionsController do
   end
 
   describe 'GET #new' do
-    sing_in_user
-    end
     before { get :new }
     it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
@@ -42,7 +41,6 @@ describe QuestionsController do
   end
 
   describe 'GET #edit' do
-    sing_in_user
     before { get :edit, id: question }
 
     it 'assigns the requested question to @question' do
@@ -55,7 +53,6 @@ describe QuestionsController do
   end
 
   describe 'POST #create' do
-    sing_in_user
     context 'with valid attributes' do
       it 'save the new question in the database' do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
@@ -80,7 +77,6 @@ describe QuestionsController do
   end
 
   describe 'PATCH #update' do
-    sing_in_user
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
         patch :update, id: question, question: attributes_for(:question)
@@ -116,7 +112,6 @@ describe QuestionsController do
   end
 
   describe 'DELETE #destroy' do
-    sing_in_user
     before { question }
 
     it 'deletes question' do
@@ -128,4 +123,5 @@ describe QuestionsController do
       expect(response).to redirect_to questions_path
     end
   end
+end
 
