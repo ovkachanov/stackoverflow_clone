@@ -1,0 +1,11 @@
+h3 Title:
+= @question.title
+
+h3 Body:
+= @question.body
+br
+br
+- if current_user
+  = link_to 'Add answer', new_question_answer_path(question_id: @question)
+  br
+  = link_to 'Back', root_path

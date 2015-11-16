@@ -1,1 +1,8 @@
+p
+  strong Questions
 
+p
+  - @questions.each do |question|
+    = question.title
+    br
+    = link_to 'Show', question_path(question)

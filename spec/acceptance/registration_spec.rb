@@ -9,7 +9,7 @@ given(:user) { create(:user) }
 
   scenario 'Unregistered user tries to sign up' do
     visit root_path
-    click_on 'Sign upp'
+    click_on 'Sign up'
     fill_in 'Email', with: user.email
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '12345678'

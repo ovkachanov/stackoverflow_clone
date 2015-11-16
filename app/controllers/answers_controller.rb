@@ -8,6 +8,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     if @answer.save
+      flash[:notice] = 'Your answer successfully created.'
       redirect_to @question
     else
       render :new
