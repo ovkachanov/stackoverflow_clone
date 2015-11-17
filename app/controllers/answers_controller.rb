@@ -1,5 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :set_question, only: [:create]
+  before_action :set_question, only: [:create, :destroy]
+  before_action :set_answer, only: [:destroy]
 
   def new
     @answer = Answer.new
@@ -15,10 +16,23 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    if @answer.destroy
+      flash[:notice] = 'Your answer deleted.'
+    else
+      flash[:notice] = 'Answer can not be deleted.'
+    end
+    redirect_to @question
+  end
+
   private
 
   def set_question
     @question = Question.find(params[:question_id])
+  end
+
+  def set_answer
+    @answer = Answer.find(params[:id])
   end
 
   def answer_params

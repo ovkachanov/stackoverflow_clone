@@ -28,4 +28,10 @@ feature 'Answer', %q{
     expect(page).to have_content 'Your answer successfully created.'
     expect(page.status_code).to eq 200
   end
+
+  scenario 'Non-Authenticated user create the answer' do
+    visit questions_path
+    click_on 'Show'
+    expect(page).to_not have_content 'Add answer'
+  end
 end

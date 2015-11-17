@@ -3,9 +3,19 @@ h3 Title:
 
 h3 Body:
 = @question.body
+
+h3 Answer:
+-if @question.answers.present?
+ - @question.answers.each do |answer|
+    = answer.body
+
+br
+- if user_signed_in? #if user_signed_in? && current_user.id == question.user_id
+  = link_to 'Delete answer', answer_path(answer_id: @answer), method: :delete
 br
 br
 - if current_user
   = link_to 'Add answer', new_question_answer_path(question_id: @question)
-  br
+
+br
   = link_to 'Back', root_path
