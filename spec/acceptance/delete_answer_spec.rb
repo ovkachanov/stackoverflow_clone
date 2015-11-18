@@ -10,7 +10,6 @@ feature 'Delete answer', '
   given(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'auth user delete his answer' do
-    answer
     sign_in(user)
     visit question_path(question)
     click_on 'Delete answer'

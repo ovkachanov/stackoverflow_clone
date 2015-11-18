@@ -11,7 +11,7 @@ h3 Answer:
 
 br
 - if user_signed_in? #if user_signed_in? && current_user.id == question.user_id
-  = link_to 'Delete answer', answer_path(answer_id: @answer), method: :delete
+  = link_to 'Delete answer', question_answer_path(question_id: @question), method: :delete
 br
 br
 - if current_user

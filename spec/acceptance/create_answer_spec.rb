@@ -12,7 +12,7 @@ feature 'Answer', %q{
   given(:answer) { create(:answer, question: question) }
 
   scenario 'User reviews answers' do
-    answer
+
 
     visit question_path question
     expect(page).to have_content answer.body

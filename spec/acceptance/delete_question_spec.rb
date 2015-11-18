@@ -5,8 +5,8 @@ feature 'Delete question', '
   As user
   I want to destroy question
 ' do
-  given!(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
+  given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
 
   scenario 'auth user try to delete his question' do
