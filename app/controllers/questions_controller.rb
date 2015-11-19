@@ -35,10 +35,11 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.destroy
+    if @question.user_id = current_user.id
+      @question.destroy
       flash[:notice] ='Your question deleted.'
     redirect_to questions_path
-  end
+    end
   end
 
   private

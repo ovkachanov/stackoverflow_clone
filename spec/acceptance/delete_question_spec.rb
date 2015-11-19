@@ -5,20 +5,26 @@ feature 'Delete question', '
   As user
   I want to destroy question' do
 
-  given!(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
+  given!(:current_user) { create(:user) }
+  given!(:his_question) { create(:question, user: current_user) }
+  given!(:alien_question) { create(:question) }
 
 
   scenario 'auth user try to delete his question' do
-    sign_in(user)
-    visit root_path
-    save_and_open_page
+    sign_in(current_user)
+    visit question_path(his_question)
     click_on 'Delete question'
 
     expect(page).to have_content 'Your question deleted.'
-    expect(page).to_not have_content question.title
+    expect(page).to_not have_content his_question.title
   end
 
+  scenario 'auth user can not delete alien question' do
+    sign_in(current_user)
+    visit question_path(alien_question)
+
+    expect(page).to_not have_content 'Delete question.'
+  end
 
   scenario 'non auth user try to delete the question' do
     visit root_path

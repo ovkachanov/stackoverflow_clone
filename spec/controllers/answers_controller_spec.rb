@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe AnswersController do
   sing_in_user
+  let(:current_user) { create(:user) }
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
 
@@ -34,7 +35,7 @@ describe AnswersController do
     context 'Authenticated user' do
 
       it 'delete his answer' do
-        expect { delete :destroy, question_id: question.id, id: answer }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, question_id: question.id, id: answer, user: current_user }.to change(Answer, :count).by(-1)
       end
     end
   end

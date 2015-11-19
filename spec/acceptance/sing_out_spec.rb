@@ -13,9 +13,4 @@ feature 'Sing out', %q{
     click_on 'Sign out'
     expect(page).to have_content 'Signed out successfully.'
   end
-
-  scenario 'unregistered user cannot sign in' do
-    sign_in invalid_user
-    expect(page).to have_content 'Invalid email or password.'
-  end
 end

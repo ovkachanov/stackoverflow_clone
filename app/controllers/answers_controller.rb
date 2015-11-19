@@ -20,7 +20,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.destroy
+    if @answer.user_id = current_user.id
+      @answer.destroy
       flash[:notice] = 'Your answer deleted.'
     else
       flash[:notice] = 'Answer can not be deleted.'
