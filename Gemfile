@@ -17,6 +17,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'slim-rails'
 gem 'twitter-bootstrap-rails'
 gem 'simple_form'
+gem 'devise'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -46,6 +47,8 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :development do

@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe QuestionsController do
+  sing_in_user
   let(:question) { create(:question) }
+  let!(:user) { create(:user) }
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -100,8 +103,8 @@ describe QuestionsController do
 
       it 'does not change the question attributes' do
         question.reload
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
       it 're-render edit view' do
@@ -111,15 +114,25 @@ describe QuestionsController do
   end
 
   describe 'DELETE #destroy' do
-    before { question }
+    context 'User delete his question' do
+      let!(:question) { create(:question, user: @user) }
 
-    it 'deletes question' do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      it 'delete the question' do
+        expect { delete :destroy, id: question }.to change(@user.questions, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, id: question
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to the index view' do
-      delete :destroy, id: question
-      expect(response).to redirect_to questions_path
+    context "User can not delete alian question" do
+      let!(:question) { create(:question, user: user) }
+
+      it 'does not delete the question' do
+        expect { delete :destroy, id: question }.to_not change(Question, :count)
+      end
     end
   end
 end

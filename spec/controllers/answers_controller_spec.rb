@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe AnswersController do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer) }
+  sing_in_user
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
 
   describe 'GET #new' do
     before { get :new, question_id: question.id }
@@ -28,15 +30,28 @@ describe AnswersController do
       end
     end
 
-    context 'with invalid attributes' do
-      it 'does not save the new answer in the database' do
-        expect { post :create, question_id: question.id, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
+  describe 'DELETE #destroy' do
+    context 'Authenticated user' do
+      let(:answer) { create(:answer, question: question, user: @user) }
+      it 'delete his answer' do
+        expect { delete :destroy, id: answer, question_id: question.id, user: @user }.to change(@user.answers, :count).by(-1)
+      end
+    end
+  end
+
+      it 'do not delete not alias answer' do
+        expect { delete :destroy, id: answer, question_id: question.id }.to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
-        post :create, question_id: question.id, answer: attributes_for(:invalid_answer)
-        expect(response).to render_template :new
+      it 'redirect to question page' do
+        delete :destroy, id: answer, question_id: question.id
+        expect(response).to redirect_to question_path(question)
       end
+    end
+
+    context 'Non-authenticated user' do
+      it 'do not delete any answer' do
+        expect { delete :destroy, id: answer, question_id: question.id }.to_not change(Answer, :count)
     end
   end
 end
