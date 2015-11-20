@@ -1,6 +1,10 @@
 class AnswersController < ApplicationController
-  before_action :set_question, only: [:create, :destroy]
+  before_action :set_question, only: [:new, :create, :destroy]
   before_action :set_answer, only: [:destroy]
+
+  def index
+    @answers = Answer.all
+  end
 
   def new
     @answer = Answer.new
@@ -25,8 +29,8 @@ class AnswersController < ApplicationController
       flash[:notice] = 'Your answer deleted.'
     else
       flash[:notice] = 'Insufficient access rights'
+      redirect_to @question
     end
-    redirect_to @question
   end
 
   private
@@ -40,6 +44,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-   params.require(:answer).permit(:body, :question_id)
+   params.require(:answer).permit(:body)
   end
 end

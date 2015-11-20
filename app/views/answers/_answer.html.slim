@@ -7,5 +7,6 @@ table
     - @question.answers.each do |answer|
       tr
         td= answer.body
-        td= link_to 'Delete answer', question_answer_path(question_id: @question, id: answer), method: :delete if user_signed_in? && current_user.id == answer.user_id
+        td= link_to 'Delete answer', answer_path(id: answer), method: :delete if user_signed_in? && current_user.id == answer.user_id
+
 

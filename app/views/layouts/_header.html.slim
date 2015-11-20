@@ -1,9 +1,15 @@
-= link_to 'Ask question', new_question_path
-br
-- if user_signed_in?
-  = link_to 'Sign out', destroy_user_session_path, method: :delete
-- else
-  = link_to 'Sign in', new_user_session_path
-  br
-  = link_to 'Sign up', new_user_registration_path
-
+nav.navbar.navbar-default.navbar-static-top
+  .container
+    .navbar-header
+      button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button"
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand href=root_path Stackoverflow Clone
+    #navbar.collapse.navbar-collapse
+      ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          li= link_to 'Sign out', destroy_user_session_path, method: :delete
+        - else
+          li= link_to 'Sign in', new_user_session_path
+          li= link_to 'Sign up', new_user_registration_path

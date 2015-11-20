@@ -23,7 +23,7 @@ feature 'Answer', %q{
     visit questions_path
     click_on 'Show'
     click_on 'Add answer'
-    fill_in 'Body', with: 'Test answer'
+    fill_in 'Ответ', with: 'Test answer'
     click_on 'Create'
     expect(page).to have_content 'Your answer successfully created.'
     expect(page).to have_content answer.body
