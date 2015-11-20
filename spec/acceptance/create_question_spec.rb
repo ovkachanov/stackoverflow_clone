@@ -19,8 +19,8 @@ feature 'Create question', %q{
     save_and_open_page
 
     expect(page).to have_content 'Your question successfully created'
-    expect(page).to have_content question.title
-    expect(page).to have_content question.body
+    expect(page).to have_content 'Test question'
+    expect(page).to have_content 'text text text'
   end
 
   scenario 'Non-authenticated user try to create question' do

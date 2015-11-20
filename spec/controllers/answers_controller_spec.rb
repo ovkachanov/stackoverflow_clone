@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe AnswersController do
   sing_in_user
-  let(:current_user) { create(:user) }
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
 
   describe 'GET #new' do
     before { get :new, question_id: question.id }
@@ -31,28 +31,27 @@ describe AnswersController do
     end
 
   describe 'DELETE #destroy' do
-
     context 'Authenticated user' do
-
+      let(:answer) { create(:answer, question: question, user: @user) }
       it 'delete his answer' do
-        expect { delete :destroy, question_id: question.id, id: answer, user: current_user }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question.id, user: @user }.to change(@user.answers, :count).by(-1)
       end
     end
   end
 
-      it 'do not delete not his answer' do
-        expect { delete :destroy, question_id: question.id, id: answer }.to_not change(Answer, :count)
+      it 'do not delete not alias answer' do
+        expect { delete :destroy, id: answer, question_id: question.id }.to_not change(Answer, :count)
       end
 
       it 'redirect to question page' do
-        delete :destroy, question_id: question.id, id: answer
+        delete :destroy, id: answer, question_id: question.id
         expect(response).to redirect_to question_path(question)
       end
     end
 
     context 'Non-authenticated user' do
       it 'do not delete any answer' do
-        expect { delete :destroy, question_id: question.id, id: answer }.to_not change(Answer, :count)
+        expect { delete :destroy, id: answer, question_id: question.id }.to_not change(Answer, :count)
     end
   end
 end

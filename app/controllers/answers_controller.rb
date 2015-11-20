@@ -20,11 +20,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if @answer.user_id = current_user.id
+    if @answer.user_id == current_user.id
       @answer.destroy
       flash[:notice] = 'Your answer deleted.'
     else
-      flash[:notice] = 'Answer can not be deleted.'
+      flash[:notice] = 'Insufficient access rights'
     end
     redirect_to @question
   end

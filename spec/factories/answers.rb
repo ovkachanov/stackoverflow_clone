@@ -6,13 +6,13 @@ FactoryGirl.define do
 
   factory :answer do
     body
-    association :question
+    :question
     user
   end
 
   factory :invalid_answer, class: 'Answer' do
     body nil
-    association :question
+    :question
     user
   end
 end
