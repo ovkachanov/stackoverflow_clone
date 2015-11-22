@@ -21,12 +21,12 @@ describe AnswersController do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'save the new answer in the database' do
-        expect { post :create, question_id: question.id, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { post :create, question_id: question.id, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to show view' do
-        post :create, question_id: question.id, answer: attributes_for(:answer)
-        expect(response).to redirect_to question_path(question)
+      it 'render create template' do
+        post :create, question_id: question.id, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :create
       end
     end
 
