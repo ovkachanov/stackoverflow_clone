@@ -18,7 +18,7 @@ feature 'Answer', %q{
     expect(page).to have_content answer.body
   end
 
-  scenario 'Authenticated user create the answer' do
+  scenario 'Authenticated user create the answer', js: true do
     sign_in(user)
     visit questions_path
     click_on 'Show'

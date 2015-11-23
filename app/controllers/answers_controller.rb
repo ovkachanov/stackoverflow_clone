@@ -16,12 +16,8 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge({ user: current_user }))
-    if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
-      redirect_to @question
-    else
-      render :new
-    end
+    @answer.save
+    flash[:notice] = 'Your answer successfully created.'
   end
 
   def destroy

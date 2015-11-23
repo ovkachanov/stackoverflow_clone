@@ -6,9 +6,9 @@ h3 Body:
 br
 = link_to 'Delete question', question_path, method: :delete if user_signed_in?
 
-= render 'answers/answer'
-
-- if current_user
-  = link_to 'Add answer', new_question_answer_path(question_id: @question)
+.answers
+  = render 'answers/answers'
 br
-  = link_to 'Back', root_path
+- if user_signed_in?
+  = render 'answers/form'
+

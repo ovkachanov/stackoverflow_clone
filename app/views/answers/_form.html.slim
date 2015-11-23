@@ -1,11 +1,11 @@
 h3.text-center Ваш ответ
 br
 div class='row'
-= form_for @answer, url: {action: "create"} do |f|
+= form_for [@question, @answer], remote: true do |f|
   div class="col-md-offset-4 col-md-4"
     = f.label :body, 'Ответ'
     = f.text_area :body, class: "form-control"
   div class="col-md-offset-4 col-md-4"
     div class="form-group"
-    = f.submit 'Create', class: 'btn btn-info active'
+    = f.submit 'Create', class: 'btn btn-success active'
 
