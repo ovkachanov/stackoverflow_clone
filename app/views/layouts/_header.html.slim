@@ -9,8 +9,7 @@ nav.navbar.navbar-default.navbar-static-top
     #navbar.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          li= link_to 'Sign out', destroy_user_session_path, method: :delete
-          = current_user.email
+          li= button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-danger'
         - else
-          li= link_to 'Sign in', new_user_session_path
-          li= link_to 'Sign up', new_user_registration_path
+          li= button_to 'Sign in', new_user_session_path, class: 'btn btn-success'
+          li= button_to 'Sign up', new_user_registration_path, class: 'btn btn-warning'
