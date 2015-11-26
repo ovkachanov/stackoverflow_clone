@@ -21,11 +21,18 @@ feature 'Answer', %q{
     sign_in(user)
     visit questions_path
     click_on 'Show'
-    click_on 'Add answer'
     fill_in 'Ответ', with: 'Test answer'
     click_on 'Create'
-    expect(page).to have_content 'Your answer successfully created.'
     expect(page).to have_content answer.body
+  end
+
+  scenario 'User try create invalid answer', js: true do
+    sign_in(user)
+    visit root_path
+    click_on 'Show'
+    click_on 'Create'
+
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-Authenticated user create the answer' do
