@@ -1,11 +1,12 @@
-h3 Title:
+h3 Title
 = @question.title
 
-h3 Body:
+h3 Body
 = @question.body
 br
 = link_to 'Delete question', question_path, method: :delete if user_signed_in?
-
+br
+h3 Answer's
 .answers
   = render 'answers/answers'
 br

@@ -19,9 +19,9 @@ feature 'Answer', %q{
 
   scenario 'Authenticated user create the answer', js: true do
     sign_in(user)
-    visit questions_path
+    visit root_path
     click_on 'Show'
-    fill_in 'Ответ', with: 'Test answer'
+    fill_in 'Форма для ответа', with: 'Test answer'
     click_on 'Create'
     expect(page).to have_content answer.body
   end

@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
-  before_action :set_answer, only: [:destroy]
+  before_action :set_answer, only: [:destroy, :update]
 
   def index
     @answers = Answer.all
@@ -19,6 +19,17 @@ class AnswersController < ApplicationController
     @answer.save
     flash[:notice] = 'Your answer successfully created.'
   end
+
+  def update
+    if @answer.user_id == current_user.id
+      @answer.update(answer_params)
+      @question = @answer.question
+      flash.now[:notice] = 'Ответ на вопрос успешно отредактирован'
+    else
+      flash.now[:alert] = 'У вас нет прав на эти действия'
+    end
+  end
+
 
   def destroy
     if @answer.user_id == current_user.id
