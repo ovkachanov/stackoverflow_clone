@@ -1,5 +1,4 @@
-require 'rails_helper'
-
+require_relative '../acceptance_helper'
 
 feature 'Answer', %q{
  The user wants to add an answer
