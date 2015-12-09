@@ -59,24 +59,36 @@ describe AnswersController do
     context 'Authenticated user' do
       let(:answer) { create(:answer, question: question, user: @user) }
       it 'delete his answer' do
-        expect { delete :destroy, id: answer, question_id: question.id, user: @user }.to change(@user.answers, :count).by(-1)
+        expect { delete :destroy, id: answer, question_id: question.id, user: @user, format: :js }.to change(@user.answers, :count).by(-1)
       end
     end
   end
 
       it 'do not delete not alias answer' do
-        expect { delete :destroy, id: answer, question_id: question.id }.to_not change(Answer, :count)
+        expect { delete :destroy, id: answer, question_id: question.id, format: :js }.to_not change(Answer, :count)
       end
 
       it 'redirect to question page' do
-        delete :destroy, id: answer, question_id: question.id
+        delete :destroy, id: answer, question_id: question.id, format: :js
         expect(response).to redirect_to question_path(question)
       end
     end
 
     context 'Non-authenticated user' do
       it 'do not delete any answer' do
-        expect { delete :destroy, id: answer, question_id: question.id }.to_not change(Answer, :count)
+        expect { delete :destroy, id: answer, question_id: question.id, format: :js }.to_not change(Answer, :count)
+    end
+
+    describe 'PATCH #best' do
+      it 'assings the requested answer to @answer' do
+        patch :best, id: answer, format: :js
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'render best template' do
+        patch :best, id: answer, format: :js
+        expect(response).to render_template :best
+      end
     end
   end
 end

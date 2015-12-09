@@ -1,3 +1,7 @@
-= render 'question'
+- @questions.each do |question|
+  h3 = question.title
+  = link_to 'Show', question
+  br
 p
-  h3 = link_to 'Ask question', new_question_path, class: 'btn btn-warning active'
+br
+= link_to 'Ask question', new_question_path, class: 'btn btn-warning active'

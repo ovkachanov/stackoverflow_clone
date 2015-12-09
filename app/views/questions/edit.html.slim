@@ -1,1 +1,12 @@
-= render "form"
+  div class='row'
+    = form_for @question, remote: true do |f|
+      div class="col-md-offset-4 col-md-4"
+        = f.label :title, 'Заголовок'
+        = f.text_field :title, class: "form-control"
+        br
+      div class="col-md-offset-4 col-md-4"
+        = f.label :body, 'Ваш вопрос'
+        = f.text_area :body, class: "form-control"
+        div class="col-md-offset-4 col-md-4"
+          div class="form-group"
+          = f.submit 'Save', class: 'btn btn-info active'

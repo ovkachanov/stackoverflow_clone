@@ -1,14 +1,1 @@
-h3.text-center Создайте свой вопрос
-br
-div class='row'
-= form_for @question do |f|
-  div class="col-md-offset-4 col-md-4"
-    = f.label :title, 'Заголовок'
-    = f.text_field :title, class: "form-control"
-    br
-  div class="col-md-offset-4 col-md-4"
-    = f.label :body, 'Ваш вопрос'
-    = f.text_area :body, class: "form-control"
-    div class="col-md-offset-4 col-md-4"
-      div class="form-group"
-      = f.submit 'Create', class: 'btn btn-info active'
+  = render 'form'

@@ -14,14 +14,16 @@ feature 'Delete answer', '
   given!(:his_answer) { create(:answer, question: his_question, user: current_user) }
   given!(:alien_answer) { create(:answer, question: alien_question) }
 
-  scenario 'auth user delete his answer' do
+  scenario 'auth user delete his answer', js: true do
     sign_in(current_user)
     visit question_path(his_question)
-    click_on 'Edit'
-    save_and_open_page
+    within '.answers' do
+       click_on 'Edit'
+    end
     click_on 'Delete'
 
     expect(page).to_not have_content his_answer.body
+    expect(current_path).to eq question_path(his_question)
   end
 
   scenario 'auth user can not delete alien answer' do
@@ -37,3 +39,4 @@ feature 'Delete answer', '
     expect(page).to_not have_content 'Delete answer'
   end
 end
+
