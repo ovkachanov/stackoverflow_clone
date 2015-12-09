@@ -5,4 +5,5 @@
 <% else %>
     $('.question').replaceWith('<%= j render @question %>');
     $('.edit_question_show').hide()
+    $('.flash').replaceWith('<%= j render 'layouts/flash' %>');
 <% end %>

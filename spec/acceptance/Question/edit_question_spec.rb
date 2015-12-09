@@ -24,7 +24,7 @@ feature 'Edit question', '
     expect(page).to_not have_content 'Edit'
   end
 
-  scenario 'auth user try to edit his question' do
+  scenario 'auth user try to edit his question', js: true do
     sign_in(current_user)
     visit question_path(his_question)
     click_on 'Edit'
