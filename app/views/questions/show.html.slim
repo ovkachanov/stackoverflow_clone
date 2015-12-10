@@ -10,7 +10,7 @@ br
     h4 New Answer
     = form_for [@question, @answer], remote: true do |f|
       div class="col-md-offset-4 col-md-4"
-        = f.label :body, 'Ответ'
+        = f.label :body, 'Форма для ответа'
         .answer-errors
         = f.text_area :body, class: 'form-control'
       div class="col-md-offset-4 col-md-4"

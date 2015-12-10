@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:destroy, :update, :best]
+  before_action :set_question_answer, only: [:update, :best]
 
   def index
     @answers = Answer.all
@@ -22,9 +23,8 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if @answer.user_id == current_user.id
+    if current_user.author_of?(@answer)
       @answer.update(answer_params)
-      @question = @answer.question
       flash[:notice] = 'Answer successfully edited'
     else
       flash[:alert] = 'Insufficient access rights'
@@ -33,7 +33,7 @@ class AnswersController < ApplicationController
 
 
   def destroy
-    if @answer.user_id == current_user.id
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash[:notice] = 'Your answer deleted.'
     else
@@ -42,7 +42,8 @@ class AnswersController < ApplicationController
   end
 
   def best
-    if @answer.user_id == current_user.id
+    @question = @answer.question
+    if current_user.author_of?(@question)
       @answer.best
       flash[:notice] = 'You choose best answer'
     else
@@ -58,6 +59,10 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def set_question_answer
+     @question = @answer.question
   end
 
   def answer_params

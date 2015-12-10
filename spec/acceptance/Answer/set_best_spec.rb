@@ -24,7 +24,7 @@ feature 'Set best answer', '
       expect(page).to have_link 'Best answer'
     end
 
-    scenario 'set best answer to his question' do
+    scenario 'set best answer to his question', js: true do
       visit question_path(his_question)
 
       click_on 'Best answer'

@@ -1,7 +1,7 @@
 .question
   h3 = @question.title
   p = @question.body
-  - if user_signed_in? && current_user.id == question.user_id
+  - if user_signed_in? && current_user.author_of?(question)
     = link_to 'Delete question', @question, method: :delete
     br
     = link_to 'Edit', '#', class: 'edit_question_link'

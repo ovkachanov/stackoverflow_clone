@@ -1,4 +1,4 @@
-$('<%= ".answer-#{@answer.id}" %>').prependTo( $( ".answers" ) );
+$('.answers').append('<%= j render @question.answers %>');
 $('.flash').replaceWith('<%= j render 'layouts/flash' %>');
 
 

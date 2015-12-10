@@ -1,7 +1,7 @@
 - if answer.persisted?
   div class="answer-#{answer.id}"
     p = answer.body
-    - if user_signed_in? && current_user.id == answer.user_id
+    - if user_signed_in? && current_user.author_of?(answer)
         = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
         = link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
