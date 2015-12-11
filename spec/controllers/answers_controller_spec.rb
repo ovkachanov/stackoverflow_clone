@@ -49,7 +49,7 @@ describe AnswersController do
       expect(response).to render_template :update
     end
 
-    it 'assigns th question' do
+    it 'assigns the question' do
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
       expect(assigns(:question)).to eq question
     end
@@ -70,7 +70,7 @@ describe AnswersController do
 
       it 'redirect to question page' do
         delete :destroy, id: answer, question_id: question.id, format: :js
-        expect(response).to redirect_to question_path(question)
+        expect(response).to render_template :destroy
       end
     end
 
@@ -81,13 +81,18 @@ describe AnswersController do
 
     describe 'PATCH #best' do
       it 'assings the requested answer to @answer' do
-        patch :best, id: answer, format: :js
+        patch :best, id: answer, question_id: question.id, format: :js
         expect(assigns(:answer)).to eq answer
       end
 
       it 'render best template' do
         patch :best, id: answer, format: :js
         expect(response).to render_template :best
+      end
+
+      it 'set best value to true' do
+        answer.reload
+        expect(answer.best).to eq true
       end
     end
   end

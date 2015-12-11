@@ -7,10 +7,16 @@ class Answer < ActiveRecord::Base
 
   default_scope { order('best DESC') }
 
+  scope :without_best, -> { where(best: false) }
+  scope :only_best, -> { where(best: true).first }
+
   def best
     ActiveRecord::Base.transaction do
-      self.question.answers.update_all(best: false)
-      self.update(best: true)
+      best_answer = question.best_answer
+      if best_answer != self
+        best_answer.update!(best: false) if best_answer
+        update!(best: true)
+      end
     end
   end
 end

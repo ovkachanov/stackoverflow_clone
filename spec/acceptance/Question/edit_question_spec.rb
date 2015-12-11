@@ -36,7 +36,5 @@ feature 'Edit question', '
     expect(page).to have_content 'Your question successfully update'
     expect(page).to have_content 'title10test'
     expect(page).to have_content 'text text text'
-    expect(page).to_not have_selector 'text_field'
-    expect(page).to_not have_selector 'textarea'
   end
 end

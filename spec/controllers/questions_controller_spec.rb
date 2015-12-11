@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe QuestionsController do
   sing_in_user
-  let(:question) { create(:question) }
   let!(:user) { create(:user) }
+  let(:question) { create(:question, user: @user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -69,13 +69,13 @@ describe QuestionsController do
   describe 'PATCH #update' do
     context 'with valid attributes' do
 
-      it 'assigns the requested question to @question', format: :js do
-        patch :update, id: question, question: attributes_for(:question)
+      it 'assigns the requested question to @question' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
         expect(assigns(:question)).to eq question
       end
 
-      it 'changes the question attributes', format: :js do
-        patch :update, id: question, question: { title: 'new title', body: 'new body' }
+      it 'changes the question attributes' do
+        patch :update, id: question, question: { title: 'new title', body: 'new body' }, format: :js
         question.reload
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'

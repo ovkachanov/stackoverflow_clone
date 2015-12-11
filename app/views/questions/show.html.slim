@@ -1,13 +1,14 @@
 = render @question
 
 br
-h3 Answer's
+h4 Ответы пользователей
+.only_best
+  = render @question.answers.only_best
 .answers
-  = render @question.answers
+  = render @question.answers.without_best
 br
 .new-answer
   - if user_signed_in?
-    h4 New Answer
     = form_for [@question, @answer], remote: true do |f|
       div class="col-md-offset-4 col-md-4"
         = f.label :body, 'Форма для ответа'
