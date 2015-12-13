@@ -1,7 +1,8 @@
+h3 Список вопросов
 - @questions.each do |question|
-  h3 = question.title
+  h4 = question.title
   = link_to 'Show', question
   br
 p
 br
-= link_to 'Ask question', new_question_path, class: 'btn btn-warning active'
+= link_to 'Ask question', new_question_path, class: 'btn btn-success active'

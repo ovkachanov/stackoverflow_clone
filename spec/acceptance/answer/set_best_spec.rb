@@ -7,24 +7,24 @@ feature 'Set best answer', '
 ' do
 
   given!(:user) { create(:user) }
-  given!(:author_question) { create(:user) }
-  given!(:his_question) { create(:question, user: author_question) }
-  given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: his_question, user: user) }
+  given!(:question) { create(:question, user: user) }
+  given(:foreign_question) { create(:question) }
+  given!(:answer) { create(:answer, question: question) }
+
 
   describe 'Auth user' do
     before do
-      sign_in(author_question)
+      sign_in(user)
     end
 
     scenario 'sees link best answer' do
-      visit question_path(his_question)
+      visit question_path(question)
 
       expect(page).to have_link 'Best answer'
     end
 
     scenario 'set best answer to his question', js: true do
-      visit question_path(his_question)
+      visit question_path(question)
 
     within '.answers' do
        click_on 'Best answer'
@@ -37,22 +37,32 @@ feature 'Set best answer', '
       expect(page).to have_content 'You choose best answer'
     end
 
-    scenario 'not set best answer to alian question' do
+    scenario 'Set a different answer as the best', js: true do
       visit question_path(question)
 
-      expect(page).to_not have_link 'Best answer'
+      within '.only_best' do
+        expect(page).to have_content answer.body
+      end
+
+      within '.answers' do
+        expect(page).to have_content answer.body
+        click_on 'Best answer'
+      end
+
+      expect(page).to have_content 'You choose best answer'
+      expect(page).to have_content 'The answer is better'
     end
   end
 
   describe 'Non auth user' do
 
-    scenario 'set best answer' do
-      sign_in(user)
+    scenario 'not set best answer' do
       visit question_path(question)
 
       expect(page).to_not have_link 'Best answer'
     end
   end
 end
+
 
 
