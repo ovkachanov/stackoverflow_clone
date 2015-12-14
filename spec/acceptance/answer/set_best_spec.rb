@@ -8,8 +8,8 @@ feature 'Set best answer', '
 
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given(:foreign_question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
+  given(:second_answer) { create(:answer , question: question, user: user) }
 
 
   describe 'Auth user' do
@@ -31,26 +31,29 @@ feature 'Set best answer', '
     end
 
       expect(page).to have_selector '.only_best'
-      within '.only_best' do
-        expect(page).to have_content answer.body
-      end
-      expect(page).to have_content 'You choose best answer'
-    end
-
-    scenario 'Set a different answer as the best', js: true do
-      visit question_path(question)
 
       within '.only_best' do
         expect(page).to have_content answer.body
       end
 
-      within '.answers' do
-        expect(page).to have_content answer.body
-        click_on 'Best answer'
+      expect(page).to have_content 'You choose best answer'
+  end
+
+    scenario 'change exist best answer for own question', js: true do
+
+      within ".answer-#{answer.id}" do
+        click_on "Best answer"
+        expect(page).to_not have_link "Best answer"
       end
 
       expect(page).to have_content 'You choose best answer'
-      expect(page).to have_content 'The answer is better'
+
+      within ".answer-#{second_answer.id}" do
+        click_on "Best answer"
+        expect(page).to_not have_link "Вest answer"
+      end
+
+        expect(page).to have_content 'You choose best answer'
     end
   end
 
@@ -63,6 +66,3 @@ feature 'Set best answer', '
     end
   end
 end
-
-
-
