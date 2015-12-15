@@ -2,6 +2,7 @@
 
 class FileUploader < CarrierWave::Uploader::Base
 
+  delegate :indetifier, to: :file
   storage :file
 
   def store_dir
