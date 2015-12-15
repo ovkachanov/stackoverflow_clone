@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
-  before_action :set_answer, only: [:destroy]
+  before_action :set_answer, only: [:update, :destroy, :best]
 
   def index
     @answers = Answer.all
@@ -16,18 +16,36 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge({ user: current_user }))
-    @answer.save
-    flash[:notice] = 'Your answer successfully created.'
+    if @answer.save
+      flash[:notice] = 'Your answer successfully created.'
+    end
   end
 
+  def update
+    @question = @answer.question
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
+      flash[:notice] = 'Answer successfully edited'
+    else
+      flash[:alert] = 'Insufficient access rights'
+    end
+  end
+
+
   def destroy
-    if @answer.user_id == current_user.id
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash[:notice] = 'Your answer deleted.'
     else
       flash[:notice] = 'Insufficient access rights'
     end
-    redirect_to @answer.question
+  end
+
+  def best
+    if current_user.author_of?(@answer.question)
+      @answer.best
+      flash[:notice] = 'You choose best answer'
+    end
   end
 
   private

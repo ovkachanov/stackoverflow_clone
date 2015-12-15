@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Delete question', '
   In order delete my question
@@ -10,7 +10,7 @@ feature 'Delete question', '
   given!(:alien_question) { create(:question) }
 
 
-  scenario 'auth user try to delete his question' do
+  scenario 'auth user try to delete his question', js: true do
     sign_in(current_user)
     visit question_path(his_question)
     click_on 'Delete question'

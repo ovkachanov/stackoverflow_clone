@@ -1,5 +1,4 @@
-require 'rails_helper'
-
+require_relative '../acceptance_helper'
 
 feature 'Answer', %q{
  The user wants to add an answer
@@ -20,13 +19,20 @@ feature 'Answer', %q{
 
   scenario 'Authenticated user create the answer', js: true do
     sign_in(user)
-    visit questions_path
+    visit root_path
     click_on 'Show'
-    click_on 'Add answer'
-    fill_in 'Ответ', with: 'Test answer'
+    fill_in 'Форма для ответа', with: 'Test answer'
     click_on 'Create'
-    expect(page).to have_content 'Your answer successfully created.'
     expect(page).to have_content answer.body
+  end
+
+  scenario 'User try create invalid answer', js: true do
+    sign_in(user)
+    visit root_path
+    click_on 'Show'
+    click_on 'Create'
+
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-Authenticated user create the answer' do

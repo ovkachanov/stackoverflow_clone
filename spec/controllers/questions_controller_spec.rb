@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe QuestionsController do
-  sing_in_user
-  let(:question) { create(:question) }
-  let!(:user) { create(:user) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: @user) }
+  let(:foreign_question) { create(:question) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
@@ -20,6 +20,7 @@ describe QuestionsController do
   end
 
   describe 'GET #show' do
+    sing_in_user
     before { get :show, id: question }
 
     it 'assigns the requested question to @question' do
@@ -32,6 +33,7 @@ describe QuestionsController do
   end
 
   describe 'GET #new' do
+    sing_in_user
     before { get :new }
     it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
@@ -42,19 +44,8 @@ describe QuestionsController do
     end
   end
 
-  describe 'GET #edit' do
-    before { get :edit, id: question }
-
-    it 'assigns the requested question to @question' do
-    expect(assigns(:question)).to eq question
-    end
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
+    sing_in_user
     context 'with valid attributes' do
       it 'save the new question in the database' do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
@@ -79,41 +70,38 @@ describe QuestionsController do
   end
 
   describe 'PATCH #update' do
+    sing_in_user
     context 'with valid attributes' do
+
       it 'assigns the requested question to @question' do
-        patch :update, id: question, question: attributes_for(:question)
+        patch :update, id: question, question: attributes_for(:question), format: :js
         expect(assigns(:question)).to eq question
       end
 
       it 'changes the question attributes' do
-        patch :update, id: question, question: { title: 'new title', body: 'new body' }
+        patch :update, id: question, question: { title: 'new title', body: 'new body' }, format: :js
         question.reload
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
 
-      it 'redirects to the update question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(response).to redirect_to question
+      it 'redirect to updated question' do
+        patch :update, id: question, question: attributes_for(:question), format: :js
+        expect(response).to render_template :update
       end
     end
 
-    context 'with invalid attributes' do
-      before { patch :update, id: question, question: { title: 'new title', body: nil } }
-
-      it 'does not change the question attributes' do
+    context 'foreign_question' do
+      it 'not change foreign answer' do
+        patch :update, id: foreign_question, question_id: question, answer: { body: 'updated' }, format: :js
         question.reload
-        expect(question.title).to eq question.title
-        expect(question.body).to eq question.body
-      end
-
-      it 're-render edit view' do
-        expect(response).to render_template :edit
+        expect(question.body).to_not eq 'updated'
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    sing_in_user
     context 'User delete his question' do
       let!(:question) { create(:question, user: @user) }
 
@@ -128,7 +116,6 @@ describe QuestionsController do
     end
 
     context "User can not delete alian question" do
-      let!(:question) { create(:question, user: user) }
 
       it 'does not delete the question' do
         expect { delete :destroy, id: question }.to_not change(Question, :count)

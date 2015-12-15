@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Sign up', %q{
 Guest wants to register
@@ -28,7 +28,6 @@ given(:user) { create(:user) }
     within 'form' do
       click_on 'Sign up'
     end
-    save_and_open_page
     expect(page).to have_content 'has already been taken'
   end
 end

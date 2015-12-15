@@ -1,2 +1,22 @@
-  p= answer.body
-  p= link_to 'Delete answer', answer, method: :delete if user_signed_in? && current_user.id == answer.user_id
+- if answer.persisted?
+  div class="answer-#{answer.id}"
+    p = answer.body
+    - if user_signed_in? && current_user.author_of?(answer)
+        = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+        br
+        = link_to 'Delete', answer, method: :delete, remote: true
+        br
+    - if user_signed_in? && current_user.author_of?(@question)
+      -if answer.best?
+        h6 = 'The answer is better'
+      -else
+        = link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
+        div class='row'
+          = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+            div class="col-md-offset-4 col-md-4"
+              = f.label :body, 'Ответ'
+              .answer-errors
+              = f.text_area :body, class: 'form-control'
+            div class="col-md-offset-4 col-md-4"
+              div class="form-group"
+              = f.submit 'Save', class: 'btn btn-success'

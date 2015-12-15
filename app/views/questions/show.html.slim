@@ -1,14 +1,19 @@
-h3 Title:
-= @question.title
+= render @question
 
-h3 Body:
-= @question.body
 br
-= link_to 'Delete question', question_path, method: :delete if user_signed_in?
-
+h4 Ответы пользователей
+.only_best
+  = render @question.best_answer
 .answers
-  = render 'answers/answers'
+  = render @question.answers.without_best
 br
-- if user_signed_in?
-  = render 'answers/form'
-
+.new-answer
+  - if user_signed_in?
+    = form_for [@question, @answer], remote: true do |f|
+      div class="col-md-offset-4 col-md-4"
+        = f.label :body, 'Форма для ответа'
+        .answer-errors
+        = f.text_area :body, class: 'form-control'
+      div class="col-md-offset-4 col-md-4"
+        div class="form-group"
+         = f.submit 'Create', class: 'btn btn-success'
