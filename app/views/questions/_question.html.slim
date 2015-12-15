@@ -2,6 +2,11 @@
   h3 Вопрос
   h4 = @question.title
   p = @question.body
+  p Вложения
+  ul
+    - @question.attachments.each do |a|
+      li = a.file.file.filename
+
   - if user_signed_in? && current_user.author_of?(question)
     = link_to 'Delete question', @question, method: :delete
     br

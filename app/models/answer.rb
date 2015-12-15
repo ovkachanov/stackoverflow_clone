@@ -8,6 +8,7 @@ class Answer < ActiveRecord::Base
   default_scope { order('best DESC') }
 
   scope :without_best, -> { where(best: false) }
+  scope :only_best, -> { where(best: true).first }
 
   def best
     ActiveRecord::Base.transaction do

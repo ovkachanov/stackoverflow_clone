@@ -3,7 +3,7 @@
 br
 h4 Ответы пользователей
 .only_best
-  = render @question.best_answer
+  = render @question.answers.only_best
 .answers
   = render @question.answers.without_best
 br
