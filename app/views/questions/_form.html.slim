@@ -10,8 +10,7 @@
       div class="col-md-offset-4 col-md-4"
         h3 Вложения
         = f.fields_for :attachments do |a|
-          = a.label :file
-          = a.file_field :file
+          = link_to_add_association 'Выберите файл', f, :attachments
       div class="col-md-offset-4 col-md-4"
         div class="form-group"
         = f.submit 'Create', class: 'btn btn-info active'
