@@ -16,7 +16,8 @@ br
         = f.text_area :body, class: 'form-control'
         h3 Вложения
         = f.fields_for :attachments do |a|
-          = link_to_add_association 'Выберите файл', f, :attachments
+          = render 'attachments/attachments_fields', f: a
+          = link_to_add_association 'Выберите файл', f, :attachments, partial: 'attachments/attachments_fields'
       div class="col-md-offset-4 col-md-4"
         div class="form-group"
          = f.submit 'Create', class: 'btn btn-success'

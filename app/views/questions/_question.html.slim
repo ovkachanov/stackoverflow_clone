@@ -5,7 +5,11 @@
   p Вложения
   ul
     - @question.attachments.each do |a|
-      li = link_to a.file.identifier, a.file.url
+      li id="attachment-id-#{a.id}"
+        = link_to a.file.identifier, a.file.url
+        - if user_signed_in? && current_user.id == @question.user_id
+        br
+        = link_to 'Delete file', attachment_path(a), method: :delete, data: {confirm: "Delete file?"}, remote: true
 
   - if user_signed_in? && current_user.author_of?(question)
     = link_to 'Delete question', @question, method: :delete
@@ -26,4 +30,3 @@
         div class="col-md-offset-4 col-md-4"
           div class="form-group"
           = f.submit 'Save', class: 'btn btn-info active'
-
