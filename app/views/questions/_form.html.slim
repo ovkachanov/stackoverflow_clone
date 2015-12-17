@@ -7,6 +7,13 @@
       div class="col-md-offset-4 col-md-4"
         = f.label :body, 'Ваш вопрос'
         = f.text_area :body, class: "form-control"
-        div class="col-md-offset-4 col-md-4"
-          div class="form-group"
-          = f.submit 'Create', class: 'btn btn-info active'
+      div class="col-md-offset-4 col-md-4"
+        h3 Вложения
+        = f.fields_for :attachments do |a|
+          == render 'attachments/attachments_fields', f: a
+          = link_to_add_association 'Выберите файл', f, :attachments, partial: 'attachments/attachments_fields'
+
+      div class="col-md-offset-4 col-md-4"
+        div class="form-group"
+        = f.submit 'Create', class: 'btn btn-info active'
+
