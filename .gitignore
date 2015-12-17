@@ -12,6 +12,8 @@
 /public/tmp
 /public/uploads
 /public/spec
+/public/uploads
+
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep

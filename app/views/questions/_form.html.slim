@@ -10,7 +10,7 @@
       div class="col-md-offset-4 col-md-4"
         h3 Вложения
         = f.fields_for :attachments do |a|
-          = render 'attachments/attachments_fields', f: a
+          == render 'attachments/attachments_fields', f: a
           = link_to_add_association 'Выберите файл', f, :attachments, partial: 'attachments/attachments_fields'
 
       div class="col-md-offset-4 col-md-4"
