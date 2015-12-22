@@ -9,7 +9,7 @@
         = link_to a.file.identifier, a.file.url
         - if user_signed_in? && current_user.id == @question.user_id
         br
-        = link_to 'Delete file', attachment_path(a), method: :delete, data: {confirm: "Delete file?"}, remote: true
+        = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
 
   - if user_signed_in? && current_user.author_of?(question)
     = link_to 'Delete question', @question, method: :delete
