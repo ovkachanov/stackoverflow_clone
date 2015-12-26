@@ -1,0 +1,16 @@
+  .votes id = "vote-#{type}-#{votable.id}"
+    => 'Rating'
+    span.rating = votable.count_votes
+    br
+
+    - if user_signed_in? && current_user.non_author_of?(votable)
+      => "Vote for this #{type}"
+      => link_to '+', polymorphic_path([:up, votable, :votes]),
+      class: 'vote-up', method: :post, remote: true, format: :json
+
+      => link_to 'cancel', polymorphic_path([:unvote, votable, :votes]),
+      class: 'vote-unvote', method: :post, remote: true, format: :json
+
+      => link_to '-', polymorphic_path([:down, votable, :votes]),
+      class: 'vote-down', method: :post, remote: true, format: :json
+

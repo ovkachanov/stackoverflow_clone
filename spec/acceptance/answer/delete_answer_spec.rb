@@ -18,9 +18,9 @@ feature 'Delete answer', '
     sign_in(current_user)
     visit question_path(his_question)
     within '.answers' do
-       click_on 'Edit'
+      click_on 'Delete'
     end
-    click_on 'Delete'
+
 
     expect(page).to_not have_content his_answer.body
     expect(current_path).to eq question_path(his_question)

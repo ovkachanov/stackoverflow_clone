@@ -15,6 +15,7 @@ feature 'Add files to answer', %q{
   end
 
   scenario 'User adds file when asks answer', js: true do
+    save_and_open_page
     fill_in 'Форма для ответа', with: 'text body answer'
     click_on 'Выберите файл'
     all('input[type="file"]')[0].set("#{Rails.root}/spec/spec_helper.rb")

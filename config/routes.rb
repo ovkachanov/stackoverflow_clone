@@ -3,11 +3,20 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:destroy]
 
-  resources :questions do
-    resources :answers, shallow: true do
+  concern :votable do
+    resources :votes, only: [:up, :down, :unvote] do
+      post :up, on: :collection
+      post :down, on: :collection
+      post :unvote, on: :collection
+    end
+  end
+
+  resources :questions, concerns: :votable do
+    resources :answers, concerns: :votable, shallow: true do
       patch :best, on: :member
     end
   end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

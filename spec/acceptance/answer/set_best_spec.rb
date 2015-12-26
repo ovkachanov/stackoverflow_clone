@@ -41,14 +41,14 @@ feature 'Set best answer', '
 
     scenario 'change exist best answer for own question', js: true do
 
-      within ".answer-#{answer.id}" do
+      within ".answers" do
         click_on "Best answer"
         expect(page).to_not have_link "Best answer"
       end
 
       expect(page).to have_content 'You choose best answer'
 
-      within ".answer-#{second_answer.id}" do
+      within ".answers" do
         click_on "Best answer"
         expect(page).to_not have_link "Вest answer"
       end
