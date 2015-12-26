@@ -80,7 +80,8 @@ describe AnswersController do
     context 'Authenticated user' do
 
       it 'delete his answer' do
-        expect { delete :destroy, id: answer, question_id: question, user: @user, format: :js }.to change(@user.answers, :count).by(-1)
+        answer
+        expect { delete :destroy, id: answer, format: :js }.to change(Answer, :count).by(-1)
       end
 
       it 'do not delete not alias answer' do

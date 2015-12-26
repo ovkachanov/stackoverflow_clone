@@ -13,7 +13,7 @@ feature 'Add files to question', %q{
     visit new_question_path
   end
 
-  scenario 'User adds file when asks question' do
+  scenario 'User adds file when asks question', js: true do
     fill_in 'Заголовок', with: 'title10test'
     fill_in 'Ваш вопрос', with: 'text text text'
     click_on 'Выберите файл'

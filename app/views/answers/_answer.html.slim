@@ -1,12 +1,14 @@
 - if answer.persisted?
   div class="answer-#{answer.id}"
     p = answer.body
+    = render partial: 'votes/vote', locals: {votable: answer, type: "answer"}
+    br
     p Вложения
     ul
       - answer.attachments.each do |a|
         li id="attachment-id-#{a.id}"
           = link_to a.file.identifier, a.file.url
-          - if user_signed_in? && current_user.id == @answer.user_id
+        - if user_signed_in? && current_user.author_of?(@answer)
           br
           = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
 
@@ -15,6 +17,7 @@
         br
         = link_to 'Delete', answer, method: :delete, remote: true
         br
+
     - if user_signed_in? && current_user.author_of?(@question)
       -if answer.best?
         h6 = 'The answer is better'

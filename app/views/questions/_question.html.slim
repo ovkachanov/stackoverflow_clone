@@ -2,12 +2,15 @@
   h3 Вопрос
   h4 = @question.title
   p = @question.body
+  br
+  = render partial: 'votes/vote', locals: {votable: @question, type: "question"}
+  br
   p Вложения
   ul
     - @question.attachments.each do |a|
       li id="attachment-id-#{a.id}"
         = link_to a.file.identifier, a.file.url
-        - if user_signed_in? && current_user.id == @question.user_id
+      - if user_signed_in? && current_user.author_of?(@question)
         br
         = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
 
