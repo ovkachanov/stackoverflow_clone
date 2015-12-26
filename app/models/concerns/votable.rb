@@ -7,7 +7,7 @@ module Votable
     end
 
     def count_votes
-      votes.sum (:rating)
+      votes.sum(:rating)
     end
 
 end
