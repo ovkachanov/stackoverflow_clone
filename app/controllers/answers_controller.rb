@@ -16,10 +16,20 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge({ user: current_user }))
+    respond_to do |format|
+
     if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
+      format.js do
+       PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+       render nothing: true
+        end
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+        format.js
+      end
     end
   end
+
 
   def update
     @question = @answer.question

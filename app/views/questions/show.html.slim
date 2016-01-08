@@ -3,7 +3,7 @@
 br
 h4 Ответы пользователей
 
-.answers
+.answers data={question_id: "#{@question.id}"}
   = render @question.answers
 br
 .new-answer
@@ -20,3 +20,7 @@ br
         div class="col-md-offset-4 col-md-4"
           div class="form-group"
            = f.submit 'Create', class: 'btn btn-success'
+
+
+= subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}/comments"

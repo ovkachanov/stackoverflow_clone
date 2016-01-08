@@ -7,3 +7,8 @@ $ ->
     e.preventDefault();
     $('.question').hide();
     $('.edit_question_show').show()
+
+  PrivatePub.subscribe '/questions', (data, channel) ->
+    question = $.parseJSON(data['question'])
+    $('.questions').append(JST["templates/index"]({question: question}))
+
