@@ -1,11 +1,37 @@
-= render @question
+.question id = "question-#{@question.id}"
+  h3 Вопрос
+  h4 = @question.title
+  p = @question.body
+  br
+  = render partial: 'votes/vote', locals: {votable: @question, type: "question"}
+  br
+  p Вложения
+  ul
+    - @question.attachments.each do |a|
+      li id="attachment-id-#{a.id}"
+        = link_to a.file.identifier, a.file.url
+      - if user_signed_in? && current_user.author_of?(@question)
+        br
+        = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
 
-br
+  - if user_signed_in? && current_user.author_of?(@question)
+    = link_to 'Delete question', @question, method: :delete
+    br
+    = link_to 'Edit', '#', class: 'edit_question_link'
+
+  p
+  .comments
+    strong Comments
+  - @question.comments.each do |c|
+    = render partial: 'comments/comment', locals: {comment: c}
+  = link_to 'Add comment','', class: 'create-comment-link', data: { commentable_id: @question.id }
+  = form_for [ @question, @question.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{@question.id}"} do |f|
+    = f.label :comment_body, "Comment"
+    = f.text_area :comment_body
+    = f.submit 'Create'
+
 h4 Ответы пользователей
 
-.answers data={question_id: "#{@question.id}"}
-  = render @question.answers
-br
 .new-answer
     - if user_signed_in?
       = form_for [@question, @answer], remote: true do |f|
@@ -21,6 +47,8 @@ br
           div class="form-group"
            = f.submit 'Create', class: 'btn btn-success'
 
+.answers data={question_id: "#{@question.id}"}
+  = render @question.answers
 
 = subscribe_to "/questions/#{@question.id}/answers"
 = subscribe_to "/questions/#{@question.id}/comments"

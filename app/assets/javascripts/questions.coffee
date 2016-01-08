@@ -10,5 +10,4 @@ $ ->
 
   PrivatePub.subscribe '/questions', (data, channel) ->
     question = $.parseJSON(data['question'])
-    $('.questions').append(JST["templates/index"]({question: question}))
-
+    $('.questions').append('<h4>' + question.title + '</h4>' + '<a href="/questions/' + question.id + '">' + 'Show' + '</a>')

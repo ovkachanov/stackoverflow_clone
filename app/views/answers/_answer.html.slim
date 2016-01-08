@@ -20,8 +20,9 @@
     = form_for [ answer, answer.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{answer.id}"} do |f|
       = f.label :comment_body, "Comment"
       = f.text_area :comment_body
-      = f.submit 'Create'
+      = f.submit 'Create', class: 'btn btn-success'
 
+    p
     - if user_signed_in? && current_user.author_of?(answer)
         = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br

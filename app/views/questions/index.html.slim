@@ -1,10 +1,10 @@
-h3 Список вопросов
-- @questions.each do |question|
-  h4 = question.title
-  = link_to 'Show', question
-  br
 p
-br
+  strong Questions
+
+p
+.questions
+  =render @questions
+p
 = link_to 'Ask question', new_question_path, class: 'btn btn-success active'
 
 = subscribe_to "/questions"
