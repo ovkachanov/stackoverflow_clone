@@ -20,7 +20,8 @@ class AnswersController < ApplicationController
 
     if @answer.save
       format.js do
-       PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+       # PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
+       # render nothing: true
         end
       else
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
