@@ -6,8 +6,8 @@
   $('.new_answer #answer_body').val('');
 <% publish_to "/questions/#{@question.id}/answers" do %>
   $('.answers').append('<%= j render @answer %>');
-  $('.flash').replaceWith('<%= j render 'layouts/flash' %>');
   <% end %>
+  $('.flash').replaceWith('<%= j render 'layouts/flash' %>');
 <% end %>
 
 
