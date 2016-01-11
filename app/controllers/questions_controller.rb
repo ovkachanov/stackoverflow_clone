@@ -22,7 +22,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params.merge({ user: current_user }))
     if @question.save
-      flash[:notice] = 'Your question successfully created.'
+      PrivatePub.publish_to '/questions', question: @question.to_json
       redirect_to @question
     else
       render :new

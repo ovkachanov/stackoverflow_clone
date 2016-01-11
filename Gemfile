@@ -44,6 +44,8 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'private_pub'
+  gem 'thin'
 end
 
 group :test do

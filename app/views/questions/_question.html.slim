@@ -1,35 +1,3 @@
-.question
-  h3 Вопрос
-  h4 = @question.title
-  p = @question.body
-  br
-  = render partial: 'votes/vote', locals: {votable: @question, type: "question"}
-  br
-  p Вложения
-  ul
-    - @question.attachments.each do |a|
-      li id="attachment-id-#{a.id}"
-        = link_to a.file.identifier, a.file.url
-      - if user_signed_in? && current_user.author_of?(@question)
-        br
-        = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
-
-  - if user_signed_in? && current_user.author_of?(question)
-    = link_to 'Delete question', @question, method: :delete
-    br
-    = link_to 'Edit', '#', class: 'edit_question_link'
-
-.edit_question_show
-  div class='form'
-    div class='row'
-    = form_for @question, remote: true do |f|
-      div class="col-md-offset-4 col-md-4"
-        = f.label :title, 'Заголовок'
-        = f.text_field :title, class: "form-control"
-        br
-      div class="col-md-offset-4 col-md-4"
-        = f.label :body, 'Ваш вопрос'
-        = f.text_area :body, class: "form-control"
-        div class="col-md-offset-4 col-md-4"
-          div class="form-group"
-          = f.submit 'Save', class: 'btn btn-info active'
+div id="question-id-#{question.id}"
+  h4 = question.title
+  p = link_to 'Show', question_path(question)

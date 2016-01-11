@@ -3,7 +3,11 @@
       $('.answer-errors').html('<%= j message %>');
 <% end %>
 <% else %>
-    $('.answers').append('<%= j render @answer %>');
-    $('.new-answer #answer_body').val('');
-    $('.flash').replaceWith('<%= j render 'layouts/flash' %>');
+  $('.new_answer #answer_body').val('');
+<% publish_to "/questions/#{@question.id}/answers" do %>
+  $('.answers').append('<%= j render @answer %>');
+  <% end %>
+  $('.flash').replaceWith('<%= j render 'layouts/flash' %>');
 <% end %>
+
+
