@@ -1,50 +1,36 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :build_answer, only: [:show]
+  after_action  :publish_question, only: [:create]
+
+  respond_to :js, only: :update
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+   respond_with(@question = Question.new)
   end
 
   def edit
   end
 
   def create
-    @question = Question.new(question_params.merge({ user: current_user }))
-    if @question.save
-      PrivatePub.publish_to '/questions', question: @question.to_json
-      redirect_to @question
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-      flash[:notice] = 'Your question successfully update'
-    end
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      flash[:notice] = 'Your question deleted.'
-      redirect_to questions_path
-    else
-      flash[:notice] = 'Insufficient access rights'
-      redirect_to @question
-    end
+    respond_with @question.destroy if current_user.author_of?(@question)
   end
 
   private
@@ -55,5 +41,13 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, attachments_attributes: [:file, :id, :_delete])
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
+
+  def publish_question
+    PrivatePub.publish_to('/questions', question: @question.to_json) if @question.valid?
   end
 end
