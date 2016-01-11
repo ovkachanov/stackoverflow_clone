@@ -2,60 +2,28 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:update, :destroy, :best]
+  before_action :set_question_answer, only: [:update]
 
-  def index
-    @answers = Answer.all
-  end
 
-  def new
-    @answer = Answer.new
-  end
-
-  def show
-  end
+  respond_to :js
 
   def create
-    @answer = @question.answers.create(answer_params.merge({ user: current_user }))
-    respond_to do |format|
-
-    if @answer.save
-      format.js do
-       # PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
-       # render nothing: true
-        end
-      else
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-        format.js
-      end
-    end
+    respond_with (@answer = @question.answers.create(answer_params.merge({ user: current_user })))
   end
 
 
   def update
-    @question = @answer.question
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-      flash[:notice] = 'Answer successfully edited'
-    else
-      flash[:alert] = 'Insufficient access rights'
-    end
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    respond_with @answer
   end
 
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash[:notice] = 'Your answer deleted.'
-    else
-      flash[:notice] = 'Insufficient access rights'
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def best
-    if current_user.author_of?(@answer.question)
-      @answer.best
-      flash[:notice] = 'You choose best answer'
-    end
+    respond_with(@answer.best) if current_user.author_of?(@answer.question)
   end
 
   private
@@ -66,6 +34,10 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def set_question_answer
+    @question = @answer.question
   end
 
   def answer_params
