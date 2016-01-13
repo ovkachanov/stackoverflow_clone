@@ -47,6 +47,10 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'private_pub'
   gem 'thin'
+  gem 'omniauth'
+  gem 'omniauth-facebook'
+  gem 'omniauth-vkontakte'
+  gem 'omniauth-twitter'
 end
 
 group :test do
