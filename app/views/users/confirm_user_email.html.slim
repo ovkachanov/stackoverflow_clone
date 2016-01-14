@@ -1,0 +1,9 @@
+div class='row'
+  = form_tag twitter_path do
+    div class="col-md-offset-4 col-md-4"
+      = label_tag :email, 'Введите ваш e-mail'
+    div class="col-md-offset-4 col-md-4"
+      = email_field 'auth[info]', :email
+    div class="col-md-offset-4 col-md-4"
+      div class="form-group"
+      = submit_tag 'Send', class: 'btn btn-info active'
