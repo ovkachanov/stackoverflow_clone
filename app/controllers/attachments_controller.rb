@@ -5,6 +5,8 @@ before_action :set_attachment, only: [:destroy]
 
 respond_to :js
 
+authorize_resource
+
   def destroy
     respond_with(@attachment.destroy) if current_user.author_of?(@attachment.attachable)
   end
