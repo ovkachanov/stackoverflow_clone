@@ -47,6 +47,10 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'private_pub'
   gem 'thin'
+  gem 'omniauth'
+  gem 'omniauth-facebook'
+  gem 'omniauth-vkontakte'
+  gem 'omniauth-twitter'
 end
 
 group :test do
@@ -63,5 +67,6 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'letter_opener'
 end
 
