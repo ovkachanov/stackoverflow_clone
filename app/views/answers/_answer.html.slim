@@ -8,7 +8,7 @@
       - answer.attachments.each do |a|
         li id="attachment-id-#{a.id}"
           = link_to a.file.identifier, a.file.url
-        - if user_signed_in? && current_user.author_of?(@answer)
+        - if can?(:manage, a)
           br
           = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
     p
@@ -23,13 +23,13 @@
       = f.submit 'Create', class: 'btn btn-success'
 
     p
-    - if user_signed_in? && current_user.author_of?(answer)
+    - if can?(:crud, answer)
         = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
         = link_to 'Delete', answer, method: :delete, remote: true
         br
 
-    - if user_signed_in? && current_user.author_of?(@question)
+    - if can?(:best, answer)
       -if answer.best?
         h6 = 'The answer is better'
       -else

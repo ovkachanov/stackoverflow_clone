@@ -1,5 +1,7 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
+  skip_authorization_check
+
   def facebook
     oauth_provider(:facebook)
   end
