@@ -20,7 +20,7 @@ class Ability
   def user_abilities
     guest_abilities
 
-    alias_action  :create, :read, :update, :destroy, to: :crud
+    alias_action  :create, :edit, :update, :destroy, to: :crud
 
     can :crud, [Question, Answer], user: user
 
