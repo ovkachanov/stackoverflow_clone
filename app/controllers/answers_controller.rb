@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_question, only: [:new, :create]
   before_action :set_answer, only: [:update, :destroy, :best]
+  before_action :set_question, only: [:new, :create, :best]
   before_action :set_question_answer, only: [:update]
 
   respond_to :js
@@ -30,7 +30,8 @@ class AnswersController < ApplicationController
   private
 
   def set_question
-    @question = Question.find(params[:question_id])
+    @question = @answer.question if @answer
+    @question ||= Question.find(params[:question_id])
   end
 
   def set_answer

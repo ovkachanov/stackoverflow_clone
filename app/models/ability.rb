@@ -24,6 +24,8 @@ class Ability
 
     can :crud, [Question, Answer], user: user
 
+    can :manage, :profile
+
     can :create, Comment
 
     can :best, Answer do |answer|
@@ -39,5 +41,8 @@ class Ability
     end
 
     can :unvote, Vote, user: user
+
+    alias_action :up, :down, :unvote, to: :vote
+    can :vote, [Question, Answer] { |vote| user.non_author_of?(vote) }
   end
 end

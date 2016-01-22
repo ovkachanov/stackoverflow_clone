@@ -1,10 +1,11 @@
 p
-  strong Questions
+  h3 Questions
+  hr
 
 p
 .questions
   =render @questions
 p
-= link_to 'Ask question', new_question_path, class: 'btn btn-success active'
+= link_to 'Ask question', new_question_path, class: 'btn btn-success'
 
 = subscribe_to "/questions"

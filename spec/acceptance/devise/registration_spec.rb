@@ -16,7 +16,15 @@ given(:user) { create(:user) }
     within 'form' do
       click_on 'Sign up'
     end
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+
+    open_email('test123@gmail.com')
+    current_email.click_link 'Confirm my account'
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
+
+    fill_in 'Email', with: 'test123@gmail.com'
+    fill_in 'user_password', with: '12345678'
+    click_on 'Log in'
+    expect(page).to have_content 'Signed in successfully.'
   end
 
   scenario 'registered user try register' do

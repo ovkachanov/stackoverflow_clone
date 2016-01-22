@@ -30,7 +30,7 @@ feature 'Set best answer', '
        click_on 'Best answer'
     end
 
-      expect(page).to have_selector '.only_best'
+      expect(page).to have_selector 'answers'
 
       within '.only_best' do
         expect(page).to have_content answer.body

@@ -15,7 +15,7 @@ require_relative '../acceptance_helper'
       within ".answers" do
       click_on "Add comment"
       fill_in "Comment", with: "I'am can create comment to answer!"
-      click_on 'Create'
+      click_on 'Create!'
       save_and_open_page
       expect(page).to have_content "I'am can create comment to answer!"
       end

@@ -8,6 +8,7 @@
   $('#<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %> .comments').append('<%= j render @comment %>');
   <% end %>
   $('#<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %> #comment_comment_body').val('');
-  $('#<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %> .new_comment').hide();
   $('#<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %> .create-comment-link').show();
+  $('#<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %> #create-comment-<%= @comment.commentable_id %>').hide();
 <% end %>
+

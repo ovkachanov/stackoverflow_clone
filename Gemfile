@@ -60,6 +60,7 @@ group :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'capybara-webkit'
+  gem 'capybara-email'
 end
 
 group :development do
@@ -70,4 +71,3 @@ group :development do
   gem 'spring'
   gem 'letter_opener'
 end
-

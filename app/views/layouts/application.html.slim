@@ -19,14 +19,14 @@ html lang="ru"
     = javascript_include_tag "application"
 
 
+  body
+    = render 'layouts/header'
 
-  = render 'layouts/header'
 
+    div class="container"
+      = render 'layouts/flash'
 
-  div class="container"
-    = render 'layouts/flash'
+    div class="format"
+      = yield
 
-  div class="format"
-    = yield
-
-  = render 'layouts/footer'
+    = render 'layouts/footer'

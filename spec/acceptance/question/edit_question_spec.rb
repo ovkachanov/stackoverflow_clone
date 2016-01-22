@@ -33,8 +33,7 @@ feature 'Edit question', '
     fill_in 'Ваш вопрос', with: 'text text text'
     click_on 'Save'
 
-    expect(page).to have_content 'Your question successfully update'
+    expect(page).to have_content 'Question was successfully updated.'
     expect(page).to have_content 'title10test'
-    expect(page).to have_content 'text text text'
   end
 end

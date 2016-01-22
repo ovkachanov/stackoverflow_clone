@@ -6,7 +6,6 @@ describe CommentsController do
     let!(:answer) { create(:answer, question: question) }
     let!(:comment) { create(:comment) }
 
-
   describe "POST #create" do
 
     context "User can create comment" do

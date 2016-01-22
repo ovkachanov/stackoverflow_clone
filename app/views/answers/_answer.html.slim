@@ -11,36 +11,38 @@
         - if can?(:manage, a)
           br
           = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
-    p
-    .comments
-      strong Comments
-    - answer.comments.each do |c|
-      = render partial: 'comments/comment', locals: {comment: c}
-    = link_to 'Add comment','', class: 'create-comment-link', data: { commentable_id: answer.id }
-    = form_for [ answer, answer.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{answer.id}"} do |f|
-      = f.label :comment_body, "Comment"
-      = f.text_area :comment_body
-      = f.submit 'Create', class: 'btn btn-success'
+
+    - if can?(:create, Comment)
+      p
+      .comments
+        strong Comments
+        - answer.comments.each do |c|
+          = render partial: 'comments/comment', locals: {comment: c}
+        = link_to 'Add comment','', class: 'create-comment-link', data: { commentable_id: answer.id }
+        = form_for [ answer, answer.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{answer.id}"} do |f|
+          = f.label :comment_body, "Comment"
+          = f.text_area :comment_body
+          = f.submit 'Create!', class: 'btn btn-success'
 
     p
     - if can?(:crud, answer)
         = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
         br
         = link_to 'Delete', answer, method: :delete, remote: true
-        br
 
-    - if can?(:best, answer)
-      -if answer.best?
-        h6 = 'The answer is better'
-      -else
-        = link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
-        div class='row'
-          = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-            div class="col-md-offset-4 col-md-4"
-              = f.label :body, 'Ответ'
-              .answer-errors
-              = f.text_area :body, class: 'form-control'
-            div class="col-md-offset-4 col-md-4"
-              div class="form-group"
-              = f.submit 'Save', class: 'btn btn-success'
+    div class='row'
+      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+        div class="col-md-offset-4 col-md-4"
+          = f.label :body, 'Ответ'
+          .answer-errors
+          = f.text_area :body, class: 'form-control'
+          div class="col-md-offset-4 col-md-4"
+            div class="form-group"
+            = f.submit 'Save', class: 'btn btn-success'
 
+      - if user_signed_in? && current_user.author_of?(@question)
+        -if answer.best?
+          h6 = 'The answer is better'
+        -else
+          = link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
+hr

@@ -18,7 +18,7 @@ feature 'Create question', %q{
     fill_in 'Ваш вопрос', with: 'text text text'
     click_on 'Create'
 
-    expect(page).to have_content 'Your question successfully created'
+    expect(page).to have_content 'Question was successfully created.'
     expect(page).to have_content 'title10test'
     expect(page).to have_content 'text text text'
   end
