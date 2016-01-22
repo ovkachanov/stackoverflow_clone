@@ -24,9 +24,9 @@ class Ability
 
     can :crud, [Question, Answer], user: user
 
-    can :manage, :profile
-
     can :create, Comment
+
+    can :me, User, id: user.id
 
     can :best, Answer do |answer|
       answer.question.user_id == user.id && answer.user_id != user.id

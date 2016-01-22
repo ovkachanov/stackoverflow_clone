@@ -69,5 +69,10 @@ describe Ability do
       it { should be_able_to :up, Vote }
       it { should be_able_to :down, Vote }
     end
+
+    context "me" do
+      it { should be_able_to :me, user, user: user }
+      it { should_not be_able_to :me, another, user: user }
+    end
  end
 end

@@ -52,6 +52,7 @@ group :development, :test do
   gem 'omniauth-vkontakte'
   gem 'omniauth-twitter'
   gem 'cancancan'
+  gem 'doorkeeper'
 end
 
 group :test do
@@ -61,6 +62,7 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara-webkit'
   gem 'capybara-email'
+  gem 'json_spec'
 end
 
 group :development do
@@ -70,4 +72,5 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'letter_opener'
+  gem "better_errors"
 end
