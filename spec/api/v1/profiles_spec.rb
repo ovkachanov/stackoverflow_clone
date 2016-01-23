@@ -62,7 +62,7 @@ describe 'Profile API' do
       end
 
       it 'not contain current_resource_owner' do
-        expect(response.body).to_not include_json(users[9].to_json)
+        expect(response.body).to_not include_json(users[0].to_json)
       end
 
       %w(id email created_at updated_at).each do |attr|
