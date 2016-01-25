@@ -1,48 +1,52 @@
 class Ability
-  include CanCan::Ability
+	include CanCan::Ability
 
-  attr_reader :user
+	attr_reader :user
 
-  def initialize(user)
-    @user = user
+	def initialize(user)
+		@user = user
 
-    if user
-      user_abilities
-    else
-      guest_abilities
-    end
-  end
+		if user
+			user.admin? ? admin_abilities : user_abilities
+		else
+			guest_abilities
+		end
+	end
 
-  def guest_abilities
-    can :read, :all
-  end
+	def guest_abilities
+		can :read, :all
+	end
 
-  def user_abilities
-    guest_abilities
+	def admin_abilities
+		can :manage, :all
+	end
 
-    alias_action  :create, :edit, :update, :destroy, to: :crud
+	def user_abilities
+		guest_abilities
 
-    can :crud, [Question, Answer], user: user
+		alias_action  :create, :edit, :update, :destroy, to: :crud
 
-    can :create, Comment
+		can :crud, [Question, Answer], user: user
 
-    can :me, User, id: user.id
+		can :create, Comment
 
-    can :best, Answer do |answer|
-      answer.question.user_id == user.id && answer.user_id != user.id
-    end
+		can :me, User, id: user.id
 
-    can :manage, Attachment do |attachment|
-      attachment.attachable.user_id == user.id
-    end
+		can :best, Answer do |answer|
+			answer.question.user_id == user.id && answer.user_id != user.id
+		end
 
-     can [:up, :down], Vote do |vote|
-      vote.votable.user_id != user.id
-    end
+		can :manage, Attachment do |attachment|
+			attachment.attachable.user_id == user.id
+		end
 
-    can :unvote, Vote, user: user
+		 can [:up, :down], Vote do |vote|
+			vote.votable.user_id != user.id
+		end
 
-    alias_action :up, :down, :unvote, to: :vote
-    can :vote, [Question, Answer] { |vote| user.non_author_of?(vote) }
-  end
+		can :unvote, Vote, user: user
+
+		alias_action :up, :down, :unvote, to: :vote
+		can :vote, [Question, Answer] { |vote| user.non_author_of?(vote) }
+	end
 end
