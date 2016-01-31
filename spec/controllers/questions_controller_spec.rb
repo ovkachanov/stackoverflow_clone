@@ -45,25 +45,40 @@ describe QuestionsController do
   end
 
   describe 'POST #create' do
+
     sing_in_user
-    context 'with valid attributes' do
-      it 'save the new question in the database' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+
+    let(:path) { '/questions' }
+    let(:create_question) { post :create, question: attributes_for(:question) }
+    let(:create_invalid_question) { post :create, question: attributes_for(:invalid_question) }
+
+    it_behaves_like "Publishable question"
+
+    context 'create question with valid attributes can only authorised user' do
+
+      it 'create question and save in database' do
+        expect { create_question }.to change(Question, :count).by(1)
       end
 
-      it 'redirects to show view' do
-        post :create, question: attributes_for(:question)
+      it 'redirect to a new question' do
+        create_question
         expect(response).to redirect_to question_path(assigns(:question))
+      end
+
+
+      it  'compare users_id with new question users_id' do
+      create_question
+        expect(assigns(question.user.id)).to eq @user_id
       end
     end
 
-    context 'with invalid attributes' do
-      it 'does not save the new question in the database' do
-        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+    context 'create question with invalid attributes' do
+      it 'does not save save the question' do
+        expect { create_invalid_question }.to_not change(Question, :count)
       end
 
-      it 're-render new view' do
-        post :create, question: attributes_for(:invalid_question)
+      it 'render new template with invalid attributes' do
+        create_invalid_question
         expect(response).to render_template :new
       end
     end
