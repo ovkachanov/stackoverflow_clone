@@ -2,17 +2,8 @@ require 'rails_helper'
 
 describe 'Profile API' do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/me', format: :json
-        expect(response.status).to eq 401
-      end
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/me', format: :json, access_token: '665544'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'API Authenticable'
 
     context 'authorized' do
       let(:me) { create(:user) }
@@ -24,7 +15,7 @@ describe 'Profile API' do
         expect(response).to be_success
       end
 
-      %w(id email created_at updated_at).each do |attr|
+      %w(id email created_at updated_at admin).each do |attr|
         it "contains #{attr}" do
           expect(response.body).to be_json_eql(me.send(attr.to_sym).to_json).at_path(attr)
         end
@@ -36,23 +27,17 @@ describe 'Profile API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/profiles/me', { format: :json }.merge(options)
+    end
   end
 
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles', format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles', format: :json, access_token: '112233'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'API Authenticable'
 
     context 'authorized' do
-      let!(:users) { create_list(:user, 4) }
+      let!(:users) { create_list(:user, 2) }
       let(:access_token) { create(:access_token, resource_owner_id: users[0].id) }
 
       before { get '/api/v1/profiles', format: :json, access_token: access_token.token }
@@ -61,21 +46,25 @@ describe 'Profile API' do
         expect(response).to be_success
       end
 
-      it 'not contain current_resource_owner' do
+      it 'does not contain current_resource_owner' do
         expect(response.body).to_not include_json(users[0].to_json)
       end
 
-      %w(id email created_at updated_at).each do |attr|
+      %w(id email created_at updated_at admin).each do |attr|
         it "contains #{attr}" do
-          expect(response.body).to be_json_eql(users[1].send(attr.to_sym).to_json).at_path("0/#{attr}")
+          expect(response.body).to be_json_eql(users[1].send(attr.to_sym).to_json).at_path("profiles/0/#{attr}")
         end
       end
 
       %w(password encrypted_password).each do |attr|
         it "does not contain #{attr}" do
-          expect(response.body).to_not have_json_path("0/#{attr}")
+          expect(response.body).to_not have_json_path("profiles/0/#{attr}")
         end
       end
+    end
+
+    def do_request(options = {})
+      get '/api/v1/profiles', { format: :json }.merge(options)
     end
   end
 end
