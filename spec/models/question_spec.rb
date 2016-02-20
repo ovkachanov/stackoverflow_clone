@@ -8,6 +8,7 @@ describe Question do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many :votes }
   it { should have_many :comments }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   describe "#vote_сount" do
     let (:question) {create(:question)}
@@ -16,6 +17,15 @@ describe Question do
 
     it "should show sum of question votes" do
       expect(question.count_votes).to eq 7
+    end
+  end
+
+  describe '#author_subscribe' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+
+    it 'subscribes author after create question' do
+      expect(question.subscriptions.count).to eq 1
     end
   end
 end

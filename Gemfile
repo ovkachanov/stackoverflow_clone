@@ -56,6 +56,9 @@ group :development, :test do
   gem 'active_model_serializers'
   gem 'oj'
   gem 'oj_mimic_json'
+  gem 'whenever'
+  gem 'sidekiq'
+  gem 'sinatra', require: false
 end
 
 group :test do

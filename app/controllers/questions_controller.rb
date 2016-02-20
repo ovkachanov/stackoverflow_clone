@@ -1,7 +1,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
-  before_action :build_answer, only: [:show]
+  before_action :build_answer, :set_subscription, only: [:show]
+  before_action :set_subscription, only: [:show]
   after_action  :publish_question, only: [:create]
 
   respond_to :js, only: :update
@@ -39,6 +40,10 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.find(params[:id])
+  end
+
+  def set_subscription
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 
   def question_params

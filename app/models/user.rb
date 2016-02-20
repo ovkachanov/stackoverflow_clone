@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :votes
   has_many :comments, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :confirmable, :trackable, :validatable,  :omniauthable, omniauth_providers: [:facebook, :vkontakte, :twitter]
