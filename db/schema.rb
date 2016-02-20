@@ -49,12 +49,6 @@ ActiveRecord::Schema.define(version: 20160220165114) do
   add_index "authorizations", ["uid"], name: "index_authorizations_on_uid", using: :btree
   add_index "authorizations", ["user_id"], name: "index_authorizations_on_user_id", using: :btree
 
-  create_table "cards", force: :cascade do |t|
-    t.string   "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "comments", force: :cascade do |t|
     t.text     "comment_body"
     t.integer  "user_id"
@@ -65,14 +59,6 @@ ActiveRecord::Schema.define(version: 20160220165114) do
   end
 
   add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
-
-  create_table "materials", force: :cascade do |t|
-    t.string   "title"
-    t.string   "type"
-    t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -156,11 +142,6 @@ ActiveRecord::Schema.define(version: 20160220165114) do
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "video_materials", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "votes", force: :cascade do |t|
     t.integer  "rating"
