@@ -59,6 +59,8 @@ group :development, :test do
   gem 'whenever'
   gem 'sidekiq'
   gem 'sinatra', require: false
+  gem 'mysql2'
+  gem 'thinking-sphinx'
 end
 
 group :test do
