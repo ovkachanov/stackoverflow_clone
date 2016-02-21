@@ -8,6 +8,7 @@ class Answer < ActiveRecord::Base
 
   validates :body, :question_id, :user_id, presence: true
 
+  after_create :notify_subscribers
 
   default_scope { order('best DESC') }
 
@@ -20,5 +21,9 @@ class Answer < ActiveRecord::Base
         update!(best: true)
       end
     end
+  end
+
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self)
   end
 end

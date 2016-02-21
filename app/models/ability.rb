@@ -36,6 +36,10 @@ class Ability
       answer.question.user_id == user.id && answer.user_id != user.id
     end
 
+    can :create,  [Question, Answer, Comment, Subscription]
+
+    can [:update, :destroy], [Question, Answer, Subscription], user_id: user.id
+
     can :manage, Attachment do |attachment|
       attachment.attachable.user_id == user.id
     end

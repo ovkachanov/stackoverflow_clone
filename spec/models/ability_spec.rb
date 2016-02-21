@@ -64,6 +64,15 @@ describe Ability do
       it { should_not be_able_to :manage, attach, user: user }
     end
 
+    context "Subscription" do
+      let(:subscription) { question.subscriptions.first }
+      let(:other_subscription) { create :subscription }
+
+      it { should be_able_to :create, Subscription }
+      it { should be_able_to :destroy, subscription, user: user }
+      it { should_not be_able_to :destroy, other_subscription, user: user }
+    end
+
     context "Vote" do
       it { should be_able_to :unvote, Vote }
       it { should be_able_to :up, Vote }
