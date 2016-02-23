@@ -4,7 +4,9 @@
   p
   = form_tag("/search", method: "get") do
     = label_tag :query, ""
-    = text_field_tag :query
+    = text_field_tag :query, params[:query]
+    =>
+    = select_tag(:condition, options_for_select(Search::CONDITIONS, params[:condition]))
     =>
     = submit_tag "Search", class: 'btn btn-info active'
   hr

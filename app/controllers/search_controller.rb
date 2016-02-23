@@ -1,15 +1,8 @@
 class SearchController < ApplicationController
-  before_action :load_params
-
   skip_authorization_check
 
   def index
-    @result = ThinkingSphinx.search(@query)
-  end
-
-  private
-
-  def load_params
-    @query = params[:query]
+    authorize! :read, @results
+    respond_with(@results = Search.query(params[:query], params[:condition]))
   end
 end
