@@ -1,0 +1,8 @@
+.results
+  h2 Результаты поиска:
+  - if @results.blank?
+    h4 По вашему запросу ничего не найдено
+  - else
+    ul
+    - @results.each do |obj|
+      =render :partial => "search/#{obj.class.name.downcase}", locals: {obj: obj}
