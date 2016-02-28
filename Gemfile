@@ -61,6 +61,8 @@ group :development, :test do
   gem 'sinatra', require: false
   gem 'mysql2'
   gem 'thinking-sphinx'
+  gem 'dotenv'
+  gem 'dotenv-deployment', require: 'dotenv/deployment'
 end
 
 group :test do
@@ -81,4 +83,8 @@ group :development do
   gem 'spring'
   gem 'letter_opener'
   gem "better_errors"
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
 end
