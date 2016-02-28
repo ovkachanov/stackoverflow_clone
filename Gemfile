@@ -30,6 +30,24 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'responders'
+gem 'private_pub'
+gem 'thin'
+gem 'omniauth', '1.3.0'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
+gem 'cancancan'
+gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
+gem 'whenever'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'mysql2'
+gem 'thinking-sphinx'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -40,46 +58,27 @@ gem 'responders'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'private_pub'
-  gem 'thin'
-  gem 'omniauth'
-  gem 'omniauth-facebook'
-  gem 'omniauth-vkontakte'
-  gem 'omniauth-twitter'
-  gem 'cancancan'
-  gem 'doorkeeper'
-  gem 'active_model_serializers'
-  gem 'oj'
-  gem 'oj_mimic_json'
-  gem 'whenever'
-  gem 'sidekiq'
-  gem 'sinatra', require: false
-  gem 'mysql2'
-  gem 'thinking-sphinx'
-  gem 'dotenv'
-  gem 'dotenv-deployment', require: 'dotenv/deployment'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'launchy'
+  gem 'database_cleaner'
 end
 
 group :test do
   gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'database_cleaner'
-  gem 'capybara-webkit'
   gem 'capybara-email'
   gem 'json_spec'
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'letter_opener'
   gem "better_errors"
@@ -88,3 +87,4 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
 end
+
