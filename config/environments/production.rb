@@ -78,14 +78,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: '46.101.232.186' }
-
-  config.action_mailer.smtp_settings = {
-    port:           587,
-    address:        'smtp.mailgun.org',
-    user_name:      ENV['MAILGUN_SMTP_LOGIN'],
-    password:       ENV['MAILGUN_SMTP_PASSWORD'],
-    domain:         '46.101.232.186',
-    authentication: :plain
-  }
-  config.action_mailer.delivery_method = :smtp
 end
