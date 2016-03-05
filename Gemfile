@@ -48,6 +48,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'unicorn'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -69,6 +70,7 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'launchy'
   gem 'database_cleaner'
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
