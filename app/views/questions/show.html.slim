@@ -39,7 +39,8 @@
     .comments
       strong Comments
       - @question.comments.each do |c|
-        = render partial: 'comments/comment', locals: {comment: c}
+        -cache c do
+          = render partial: 'comments/comment', locals: {comment: c}
       br
     = link_to 'Add comment','', class: 'create-comment-link', data: { commentable_id: @question.id }
     = form_for [ @question, @question.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{@question.id}"} do |f|
@@ -55,6 +56,7 @@
 
 h4 Ответы пользователей
 .answers data={question_id: "#{@question.id}"}
+-cache @question.answers do
   = render @question.answers
 
 .new-answer
