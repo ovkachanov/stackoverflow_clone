@@ -1,48 +1,49 @@
-- if answer.persisted?
-  div class="answer-#{answer.id}"
-    p = answer.body
-    = render partial: 'votes/vote', locals: {votable: answer, type: "answer"}
-    br
-    p Вложения
-    ul
-      - answer.attachments.each do |a|
-        li id="attachment-id-#{a.id}"
-          = link_to a.file.identifier, a.file.url
-        - if can?(:manage, a)
-          br
-          = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
+-cache answer do
+  - if answer.persisted?
+    div class="answer-#{answer.id}"
+      p = answer.body
+      = render partial: 'votes/vote', locals: {votable: answer, type: "answer"}
+      br
+      p Вложения
+      ul
+        - answer.attachments.each do |a|
+          li id="attachment-id-#{a.id}"
+            = link_to a.file.identifier, a.file.url
+          - if can?(:manage, a)
+            br
+            = link_to 'Delete file', attachment_path(a), method: :delete, remote: true
 
-    - if can?(:create, Comment)
+      - if can?(:create, Comment)
+        p
+        .comments
+          strong Comments
+          - answer.comments.each do |c|
+            = render partial: 'comments/comment', locals: {comment: c}
+          = link_to 'Add comment','', class: 'create-comment-link', data: { commentable_id: answer.id }
+          = form_for [ answer, answer.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{answer.id}"} do |f|
+            = f.label :comment_body, "Comment"
+            = f.text_area :comment_body
+            = f.submit 'Create!', class: 'btn btn-success'
+
       p
-      .comments
-        strong Comments
-        - answer.comments.each do |c|
-          = render partial: 'comments/comment', locals: {comment: c}
-        = link_to 'Add comment','', class: 'create-comment-link', data: { commentable_id: answer.id }
-        = form_for [ answer, answer.comments.build ], method: "post", remote: true, html: { id: "create-comment-#{answer.id}"} do |f|
-          = f.label :comment_body, "Comment"
-          = f.text_area :comment_body
-          = f.submit 'Create!', class: 'btn btn-success'
+      - if can?(:crud, answer)
+          = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+          br
+          = link_to 'Delete', answer, method: :delete, remote: true
 
-    p
-    - if can?(:crud, answer)
-        = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-        br
-        = link_to 'Delete', answer, method: :delete, remote: true
-
-    div class='row'
-      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-        div class="col-md-offset-4 col-md-4"
-          = f.label :body, 'Ответ'
-          .answer-errors
-          = f.text_area :body, class: 'form-control'
+      div class='row'
+        = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
           div class="col-md-offset-4 col-md-4"
-            div class="form-group"
-            = f.submit 'Save', class: 'btn btn-success'
+            = f.label :body, 'Ответ'
+            .answer-errors
+            = f.text_area :body, class: 'form-control'
+            div class="col-md-offset-4 col-md-4"
+              div class="form-group"
+              = f.submit 'Save', class: 'btn btn-success'
 
-      - if user_signed_in? && current_user.author_of?(@question)
-        -if answer.best?
-          h6 = 'The answer is better'
-        -else
-          = link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
-hr
+        - if user_signed_in? && current_user.author_of?(@question)
+          -if answer.best?
+            h6 = 'The answer is better'
+          -else
+            = link_to 'Best answer', best_answer_path(answer), method: :patch, remote: true
+  hr

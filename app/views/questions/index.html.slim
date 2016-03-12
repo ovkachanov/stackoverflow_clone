@@ -11,15 +11,16 @@
     = submit_tag "Search", class: 'btn btn-info active'
   hr
 
-p
-  h3 Questions
-  hr
+- cache collection_cache_key_for :question do
+  p
+    h3 Questions
+    hr
 
-p
-.questions
-  =render @questions
+  p
+  .questions
+    =render @questions
 
-br
-= link_to 'Ask question', new_question_path, class: 'btn btn-success'
+  br
+  = link_to 'Ask question', new_question_path, class: 'btn btn-success'
 
 = subscribe_to "/questions"
